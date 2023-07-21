@@ -1,0 +1,262 @@
+[gd_scene load_steps=26 format=3 uid="uid://bkrmu1me1p67p"]
+
+[ext_resource type="MeshLibrary" uid="uid://ceg1wx1e2wdhr" path="res://tileset.tres" id="2_gh5ox"]
+[ext_resource type="Script" path="res://Scripts/GameUI.gd" id="2_oa278"]
+[ext_resource type="Script" path="res://Scripts/Camera.gd" id="2_xh1r3"]
+[ext_resource type="PackedScene" uid="uid://btvoh5cqfh3du" path="res://Assets/Artifacts/burger_cheese.tscn" id="4_3hbos"]
+[ext_resource type="Texture2D" uid="uid://b62pb5qkkay00" path="res://Assets/Icons/burger.png" id="4_5r2uc"]
+[ext_resource type="PackedScene" uid="uid://cddmcsfse8r3p" path="res://Assets/Artifacts/kitchen_microwave.tscn" id="4_8angi"]
+[ext_resource type="Script" path="res://Scripts/GameController.gd" id="5_r7rby"]
+[ext_resource type="Texture2D" uid="uid://bmqbhmrqkf7q5" path="res://Assets/Icons/microwave.png" id="6_es6ff"]
+[ext_resource type="PackedScene" uid="uid://c3v5iyxyvaeyx" path="res://Assets/Models/Ships/craft_speeder_d.tscn" id="6_nhceh"]
+[ext_resource type="PackedScene" uid="uid://xgb1bhtlsveo" path="res://Assets/Models/Ship Internal/ship_internal.glb" id="6_tlaxf"]
+[ext_resource type="Theme" uid="uid://bpq8msfm62trk" path="res://ui_theme.tres" id="7_2icn0"]
+[ext_resource type="Script" path="res://Scripts/Ship.gd" id="7_sjdbq"]
+[ext_resource type="Script" path="res://Scripts/ShipCamera.gd" id="8_psybj"]
+[ext_resource type="FontFile" uid="uid://kyconlrag6ea" path="res://Assets/Fonts/Kenney Space.ttf" id="10_0arjv"]
+[ext_resource type="Script" path="res://Scripts/Research.gd" id="10_ipebx"]
+[ext_resource type="Script" path="res://Scripts/Scout.gd" id="10_qn1df"]
+[ext_resource type="Script" path="res://Scripts/Indicator.gd" id="13_34q3y"]
+[ext_resource type="Texture2D" uid="uid://fj0vhwxv8wu5" path="res://Assets/UI/dot_shadow.png" id="13_kge2l"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5rwj1"]
+albedo_color = Color(0.00392157, 0.415686, 0.0745098, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_ta1gd"]
+material = SubResource("StandardMaterial3D_5rwj1")
+size = Vector2(10000, 10000)
+orientation = 1
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_2xd5r"]
+data = PackedVector3Array(5000, 0, 5000, -5000, 0, 5000, 5000, 0, -5000, -5000, 0, 5000, -5000, 0, -5000, 5000, 0, -5000)
+
+[sub_resource type="Theme" id="Theme_6ndd2"]
+Label/colors/font_color = Color(0, 0, 0, 1)
+Label/font_sizes/font_size = 25
+Label/fonts/font = ExtResource("10_0arjv")
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_33v22"]
+sky_horizon_color = Color(0.831373, 0.596078, 0.427451, 1)
+
+[sub_resource type="Sky" id="Sky_e81es"]
+sky_material = SubResource("ProceduralSkyMaterial_33v22")
+
+[sub_resource type="Environment" id="Environment_tqdas"]
+background_mode = 2
+background_color = Color(0.811765, 0.678431, 0.572549, 1)
+sky = SubResource("Sky_e81es")
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("5_r7rby")
+
+[node name="Node2D" type="Node2D" parent="."]
+script = ExtResource("2_oa278")
+
+[node name="world" type="Button" parent="Node2D"]
+offset_right = 141.0
+offset_bottom = 37.0
+text = "World
+"
+
+[node name="ship" type="Button" parent="Node2D"]
+offset_left = 161.0
+offset_right = 302.0
+offset_bottom = 37.0
+text = "Ship
+"
+
+[node name="World" type="Node3D" parent="."]
+
+[node name="Artifacts" type="Node" parent="World"]
+
+[node name="burgerCheese" parent="World/Artifacts" instance=ExtResource("4_3hbos")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0734589, 0.0515995, 10.5069)
+icon = ExtResource("4_5r2uc")
+
+[node name="kitchenMicrowave" parent="World/Artifacts" instance=ExtResource("4_8angi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.388981, 0.0515995, 11.3414)
+icon = ExtResource("6_es6ff")
+research_duration = 5
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="World"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 13.8912, 0)
+light_bake_mode = 1
+shadow_enabled = true
+shadow_opacity = 0.56
+shadow_blur = 1.052
+
+[node name="Ground" type="Node3D" parent="World"]
+
+[node name="Ground" type="MeshInstance3D" parent="World/Ground"]
+mesh = SubResource("QuadMesh_ta1gd")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="World/Ground/Ground"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Ground/Ground/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_2xd5r")
+
+[node name="GridMap" type="GridMap" parent="World"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.473053, 0)
+mesh_library = ExtResource("2_gh5ox")
+cell_size = Vector3(1, 1, 1)
+data = {
+"cells": PackedInt32Array(65532, 0, 655360, 65533, 0, 655360, 65534, 0, 655360, 65535, 0, 655360, 0, 0, 655375, 1, 0, 655360, 2, 0, 655360, 3, 0, 655360, 4, 0, 655360, 5, 0, 655360, 6, 0, 655360, 7, 0, 655360, 8, 0, 655360, 65532, 10, 655360, 65533, 10, 655360, 65534, 10, 655360, 65535, 10, 655360, 0, 10, 1441817, 1, 10, 655360, 2, 10, 655360, 3, 10, 655360, 4, 10, 655360, 5, 10, 655360, 6, 10, 655360, 7, 10, 655360, 8, 10, 655360, 9, 0, 655360, 10, 0, 655360, 11, 0, 655360, 12, 0, 655360, 13, 0, 655360, 14, 0, 655360, 15, 0, 655360, 16, 0, 655360, 17, 0, 655360, 18, 0, 655360, 19, 0, 655360, 20, 0, 655360, 21, 0, 655392, 20, 10, 655360, 19, 10, 655360, 18, 10, 655360, 17, 10, 655360, 16, 10, 655360, 15, 10, 655360, 14, 10, 655360, 13, 10, 655360, 12, 10, 655360, 11, 10, 655360, 10, 10, 655360, 9, 10, 655360, 65531, 10, 655360, 65530, 10, 655360, 65529, 10, 655360, 65528, 10, 655360, 65527, 10, 655360, 65526, 10, 655360, 65525, 10, 655360, 65524, 10, 655360, 65523, 10, 655360, 65522, 10, 655360, 65521, 10, 1441807, 65531, 0, 655360, 65530, 0, 655360, 65529, 0, 655360, 65528, 0, 655360, 65527, 0, 655360, 65526, 0, 655360, 65525, 0, 655360, 65524, 0, 655360, 65523, 0, 655360, 65522, 0, 655360, 65521, 0, 1441824, 65521, 1, 1048576, 65521, 2, 1048576, 65521, 3, 1048576, 65521, 4, 1048576, 65521, 5, 1048576, 65521, 6, 1048576, 65521, 7, 1048576, 65521, 8, 1048576, 65521, 9, 1048576, 0, 1, 1048576, 0, 2, 1048576, 0, 3, 1048576, 0, 4, 1048576, 0, 5, 1048576, 0, 6, 1048576, 0, 7, 1048576, 0, 8, 1048576, 0, 9, 1048576, 21, 1, 1048576, 21, 2, 1048576, 21, 3, 1048576, 21, 4, 1048576, 21, 5, 1048576, 21, 6, 1048576, 21, 7, 1048576, 21, 8, 1048576, 21, 9, 1048576, 21, 11, 1048576, 21, 12, 1048576, 21, 13, 1048576, 21, 16, 1048576, 21, 17, 1048576, 21, 18, 1048576, 21, 15, 1048576, 21, 14, 1048576, 65521, 11, 1048576, 65521, 12, 1048576, 65521, 13, 1048576, 65521, 14, 1048576, 65521, 15, 1048576, 65521, 16, 1048576, 65521, 17, 1048576, 65521, 18, 1048576, 65521, 19, 1048576, 0, 11, 1048576, 0, 12, 1048576, 0, 13, 1048576, 0, 14, 1048576, 0, 15, 1048576, 0, 16, 1048576, 0, 17, 1048576, 0, 18, 1048576, 0, 19, 1048576, 65522, 20, 0, 65523, 20, 0, 65524, 20, 0, 65525, 20, 0, 65526, 20, 0, 65527, 20, 0, 65528, 20, 0, 65529, 20, 0, 65530, 20, 0, 65531, 20, 0, 65532, 20, 0, 65533, 20, 0, 65534, 20, 0, 65535, 20, 0, 0, 20, 15, 1, 20, 0, 2, 20, 0, 3, 20, 0, 4, 20, 0, 5, 20, 0, 6, 20, 0, 7, 20, 0, 8, 20, 0, 9, 20, 0, 10, 20, 0, 11, 20, 0, 12, 20, 0, 13, 20, 0, 14, 20, 0, 15, 20, 0, 16, 20, 0, 17, 20, 0, 18, 20, 0, 19, 20, 0, 20, 20, 0, 21, 19, 1441792, 21, 20, 1048608, 65521, 20, 32, 21, 10, 1048591, 2, 12, 89, 2, 8, 78, 5, 12, 81, 65534, 12, 84, 14, 7, 52, 12, 12, 52)
+}
+metadata/_editor_floor_ = Vector3(0, 0, 0)
+
+[node name="Camera" type="Camera3D" parent="World"]
+transform = Transform3D(-3.09086e-08, 0.707107, -0.707107, 3.09086e-08, 0.707107, 0.707107, 1, 0, -4.37114e-08, -2.77695, 1.80741, 9.70602)
+script = ExtResource("2_xh1r3")
+
+[node name="craft_speederD" parent="World" instance=ExtResource("6_nhceh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.355226, 0, 10.7471)
+script = ExtResource("10_qn1df")
+
+[node name="Ship" type="Node3D" parent="."]
+script = ExtResource("7_sjdbq")
+
+[node name="Camera" type="Camera3D" parent="Ship"]
+transform = Transform3D(0.976672, -0.0900712, 0.194932, 0, 0.907777, 0.419452, -0.214735, -0.409667, 0.886601, 0, 2.5, -2)
+script = ExtResource("8_psybj")
+
+[node name="ship_internal" parent="Ship" instance=ExtResource("6_tlaxf")]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Ship"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.98563, 1.69692, -7.08931)
+light_color = Color(0.47451, 0.717647, 0.109804, 1)
+light_energy = 7.4
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="Ship"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.36814, 0.800466, -4.03135)
+light_color = Color(0.47451, 0.717647, 0.109804, 1)
+light_energy = 7.4
+
+[node name="OmniLight3D3" type="OmniLight3D" parent="Ship"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.16714, 0.83357, -6.33971)
+light_color = Color(0.933333, 0.443137, 0.658824, 1)
+light_energy = 7.4
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Ship"]
+transform = Transform3D(1, 0, 0, 0, -0.258819, 0.965926, 0, -0.965926, -0.258819, -1.79392, 3.39327, -6.32574)
+light_energy = 12.733
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Ship"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 13.8912, 0)
+light_color = Color(0.364706, 0.556863, 0.313726, 1)
+
+[node name="ResearchUI" type="Node2D" parent="Ship"]
+
+[node name="TabContainer" type="TabContainer" parent="Ship/ResearchUI"]
+offset_left = 97.0
+offset_top = 74.0
+offset_right = 1060.0
+offset_bottom = 576.0
+theme = ExtResource("7_2icn0")
+
+[node name="Research" type="TabBar" parent="Ship/ResearchUI/TabContainer"]
+layout_mode = 2
+theme = ExtResource("7_2icn0")
+script = ExtResource("10_ipebx")
+
+[node name="Progress" type="ProgressBar" parent="Ship/ResearchUI/TabContainer/Research"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 405.0
+offset_right = 370.0
+offset_bottom = 432.0
+theme = ExtResource("7_2icn0")
+max_value = 1.0
+
+[node name="ColorRect" type="ColorRect" parent="Ship/ResearchUI/TabContainer/Research"]
+layout_mode = 0
+offset_top = 55.0
+offset_right = 379.0
+offset_bottom = 388.0
+
+[node name="Image" type="TextureRect" parent="Ship/ResearchUI/TabContainer/Research/ColorRect"]
+layout_mode = 0
+offset_left = 23.0
+offset_top = 13.0
+offset_right = 362.0
+offset_bottom = 319.0
+expand_mode = 3
+
+[node name="analyse" type="Button" parent="Ship/ResearchUI/TabContainer/Research"]
+layout_mode = 0
+offset_left = 738.0
+offset_top = 368.0
+offset_right = 927.0
+offset_bottom = 441.0
+theme = ExtResource("7_2icn0")
+text = "Analyse"
+
+[node name="Name" type="Label" parent="Ship/ResearchUI/TabContainer/Research"]
+layout_mode = 0
+offset_right = 921.0
+offset_bottom = 48.0
+theme = SubResource("Theme_6ndd2")
+text = "Lorem Ipsum is simply dummy text "
+horizontal_alignment = 1
+
+[node name="Timer" type="Timer" parent="Ship/ResearchUI/TabContainer/Research"]
+
+[node name="ResearchProgress" type="HBoxContainer" parent="Ship/ResearchUI/TabContainer/Research"]
+layout_mode = 0
+offset_left = 393.0
+offset_top = 57.0
+offset_right = 551.0
+offset_bottom = 81.0
+
+[node name="TextureRect" type="TextureRect" parent="Ship/ResearchUI/TabContainer/Research/ResearchProgress"]
+layout_mode = 2
+texture = ExtResource("13_kge2l")
+script = ExtResource("13_34q3y")
+
+[node name="TextureRect2" type="TextureRect" parent="Ship/ResearchUI/TabContainer/Research/ResearchProgress"]
+layout_mode = 2
+texture = ExtResource("13_kge2l")
+script = ExtResource("13_34q3y")
+
+[node name="TextureRect3" type="TextureRect" parent="Ship/ResearchUI/TabContainer/Research/ResearchProgress"]
+layout_mode = 2
+texture = ExtResource("13_kge2l")
+script = ExtResource("13_34q3y")
+
+[node name="TextureRect4" type="TextureRect" parent="Ship/ResearchUI/TabContainer/Research/ResearchProgress"]
+layout_mode = 2
+texture = ExtResource("13_kge2l")
+script = ExtResource("13_34q3y")
+
+[node name="TextureRect5" type="TextureRect" parent="Ship/ResearchUI/TabContainer/Research/ResearchProgress"]
+layout_mode = 2
+texture = ExtResource("13_kge2l")
+script = ExtResource("13_34q3y")
+
+[node name="ColorRect2" type="ColorRect" parent="Ship/ResearchUI/TabContainer/Research"]
+layout_mode = 0
+offset_left = 393.0
+offset_top = 89.0
+offset_right = 925.0
+offset_bottom = 351.0
+color = Color(0.807843, 0.807843, 0.807843, 1)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Ship/ResearchUI/TabContainer/Research/ColorRect2"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 7.0
+offset_right = 523.0
+offset_bottom = 254.0
+theme = ExtResource("7_2icn0")
+text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sit amet pharetra dui. Ut vitae odio eget tellus finibus sodales. Vivamus feugiat augue in justo vestibulum tincidunt. Donec finibus eleifend semper. Duis mollis sit amet ligula non fringilla. Quisque faucibus lacinia leo, et pellentesque neque ultricies vel. Suspendisse eros metus, volutpat eget odio id, luctus hendrerit ante. Proin sollicitudin eros sit amet augue euismod, a imperdiet sapien sagittis. Suspendisse blandit ex id risus feugiat, ac maximus nisl sodales. Pellentesque rutrum mi id sapien dignissim egestas. Ut accumsan id leo non condimentum. Pellentesque ut rutrum dolor. Proin molestie ipsum porttitor risus venenatis tempus. Nunc tincidunt elit orci, eget malesuada nulla auctor a. "
+
+[node name="Loot" type="Node3D" parent="Ship"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.09886, 0, -4.08004)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_tqdas")
+
+[connection signal="pressed" from="Node2D/world" to="Node2D" method="_on_world_pressed"]
+[connection signal="pressed" from="Node2D/ship" to="Node2D" method="_on_ship_pressed"]
+[connection signal="pressed" from="Ship/ResearchUI/TabContainer/Research/analyse" to="Ship/ResearchUI/TabContainer/Research" method="_on_analyse_pressed"]

@@ -1,0 +1,71 @@
+[gd_resource type="Theme" load_steps=15 format=3 uid="uid://bpq8msfm62trk"]
+
+[ext_resource type="Texture2D" uid="uid://dnc8scd2wgsni" path="res://Assets/UI/squareRed.png" id="1_fenrr"]
+[ext_resource type="Texture2D" uid="uid://10ekb7gv862c" path="res://Assets/UI/barHorizontal_green_mid.png" id="1_waem6"]
+[ext_resource type="Texture2D" uid="uid://dubqjsil8dekp" path="res://Assets/UI/squareRed_hightlight.png" id="2_kjk3f"]
+[ext_resource type="Texture2D" uid="uid://rw5xju7xrjk0" path="res://Assets/UI/squareWhite.png" id="2_qsj6j"]
+[ext_resource type="Texture2D" uid="uid://dbwdg2ixo76x5" path="res://Assets/UI/metalPanel.png" id="3_2nnkw"]
+[ext_resource type="Texture2D" uid="uid://d4fg6t3e6gmi" path="res://Assets/UI/dotRed.png" id="3_ogrb5"]
+[ext_resource type="Texture2D" uid="uid://fj0vhwxv8wu5" path="res://Assets/UI/dot_shadow.png" id="4_e658k"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_oe743"]
+texture = ExtResource("1_fenrr")
+texture_margin_left = 5.0
+texture_margin_top = 5.0
+texture_margin_right = 5.0
+texture_margin_bottom = 5.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_creqr"]
+texture = ExtResource("2_kjk3f")
+texture_margin_left = 5.0
+texture_margin_top = 5.0
+texture_margin_right = 5.0
+texture_margin_bottom = 5.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0ogfi"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_aqiud"]
+texture = ExtResource("1_waem6")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fo7bx"]
+texture = ExtResource("1_fenrr")
+texture_margin_left = 15.0
+texture_margin_top = 15.0
+texture_margin_right = 15.0
+texture_margin_bottom = 15.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lnuiv"]
+texture = ExtResource("2_qsj6j")
+texture_margin_left = 14.0
+texture_margin_top = 15.0
+texture_margin_right = 15.0
+texture_margin_bottom = 15.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ums0m"]
+texture = ExtResource("3_2nnkw")
+texture_margin_left = 15.0
+texture_margin_top = 15.0
+texture_margin_right = 15.0
+texture_margin_bottom = 15.0
+
+[resource]
+Button/styles/hover = SubResource("StyleBoxTexture_oe743")
+Button/styles/normal = SubResource("StyleBoxTexture_creqr")
+CheckBox/icons/checked = ExtResource("3_ogrb5")
+CheckBox/icons/checked_disabled = ExtResource("3_ogrb5")
+CheckBox/icons/radio_checked = ExtResource("3_ogrb5")
+CheckBox/icons/radio_checked_disabled = ExtResource("3_ogrb5")
+CheckBox/icons/radio_unchecked = ExtResource("4_e658k")
+CheckBox/icons/radio_unchecked_disabled = ExtResource("4_e658k")
+CheckBox/icons/unchecked = ExtResource("4_e658k")
+CheckBox/icons/unchecked_disabled = ExtResource("4_e658k")
+CheckBox/styles/disabled = SubResource("StyleBoxFlat_0ogfi")
+CheckBox/styles/focus = SubResource("StyleBoxFlat_0ogfi")
+CheckBox/styles/hover = SubResource("StyleBoxFlat_0ogfi")
+CheckBox/styles/hover_pressed = SubResource("StyleBoxFlat_0ogfi")
+ProgressBar/styles/fill = SubResource("StyleBoxTexture_aqiud")
+RichTextLabel/colors/default_color = Color(0, 0, 0, 1)
+TabBar/styles/tab_selected = SubResource("StyleBoxTexture_fo7bx")
+TabBar/styles/tab_unselected = SubResource("StyleBoxTexture_lnuiv")
+TabContainer/styles/panel = SubResource("StyleBoxTexture_ums0m")

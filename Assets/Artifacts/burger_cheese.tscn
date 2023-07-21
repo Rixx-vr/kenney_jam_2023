@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://btvoh5cqfh3du"]
+
+[ext_resource type="PackedScene" uid="uid://cldcx0p5xxiwi" path="res://Assets/Models/Objects/burgerCheese.glb" id="1_ii8gb"]
+[ext_resource type="Script" path="res://Scripts/Artifact.gd" id="2_erilr"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6nnw1"]
+radius = 0.25
+height = 0.5
+
+[node name="burgerCheese" instance=ExtResource("1_ii8gb")]
+script = ExtResource("2_erilr")
+descriptions = Array[String](["Squishy Nourishment Disk", "Earthling Energy Capsule", "Gastronomic Commemoration Emblem", "Stacked Nutrient Repository", "Earthling Fast Food Delicacy"])
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0"]
+shape = SubResource("CapsuleShape3D_6nnw1")

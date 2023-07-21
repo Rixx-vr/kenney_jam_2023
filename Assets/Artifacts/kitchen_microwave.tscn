@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://cddmcsfse8r3p"]
+
+[ext_resource type="PackedScene" uid="uid://yjt3j6d3m7xx" path="res://Assets/Models/Objects/kitchenMicrowave.glb" id="1_f7aai"]
+[ext_resource type="Script" path="res://Scripts/Artifact.gd" id="2_fwyse"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rqoif"]
+size = Vector3(0.311645, 0.203266, 0.205955)
+
+[node name="kitchenMicrowave" instance=ExtResource("1_f7aai")]
+script = ExtResource("2_fwyse")
+descriptions = Array[String](["Mystery Radiation Container", "Heat Distribution Device", "Energetic Molecular Transformer", "Food Preparation Appliance", "Efficient Food Heating Device"])
+
+[node name="kitchenMicrowave(Clone)" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.115638, 0, 0.101359)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0199725, 0.0199725, -9.02389e-17)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.070016, 0)
+shape = SubResource("BoxShape3D_rqoif")
