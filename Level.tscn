@@ -1,17 +1,24 @@
-[gd_scene load_steps=26 format=3 uid="uid://bkrmu1me1p67p"]
+[gd_scene load_steps=33 format=3 uid="uid://pjxjmp2sn7be"]
 
 [ext_resource type="MeshLibrary" uid="uid://ceg1wx1e2wdhr" path="res://tileset.tres" id="2_gh5ox"]
 [ext_resource type="Script" path="res://Scripts/GameUI.gd" id="2_oa278"]
 [ext_resource type="Script" path="res://Scripts/Camera.gd" id="2_xh1r3"]
+[ext_resource type="Texture2D" uid="uid://ciiwt1tfbvhn" path="res://Assets/UI/Skills/skill_scan.png" id="3_lb280"]
+[ext_resource type="Theme" uid="uid://es2u8vea212h" path="res://ui_skill.tres" id="3_sqgg1"]
+[ext_resource type="Texture2D" uid="uid://dbtondphm578l" path="res://Assets/UI/Skills/skill_organic.png" id="4_0js3f"]
 [ext_resource type="PackedScene" uid="uid://btvoh5cqfh3du" path="res://Assets/Artifacts/burger_cheese.tscn" id="4_3hbos"]
 [ext_resource type="Texture2D" uid="uid://b62pb5qkkay00" path="res://Assets/Icons/burger.png" id="4_5r2uc"]
 [ext_resource type="PackedScene" uid="uid://cddmcsfse8r3p" path="res://Assets/Artifacts/kitchen_microwave.tscn" id="4_8angi"]
+[ext_resource type="Script" path="res://Scripts/Scanner.gd" id="5_kienm"]
 [ext_resource type="Script" path="res://Scripts/GameController.gd" id="5_r7rby"]
+[ext_resource type="Texture2D" uid="uid://dqs0cyeg0o1ff" path="res://Assets/UI/Skills/skill_mechanic.png" id="5_wtnbk"]
+[ext_resource type="Texture2D" uid="uid://cgeij76hdhqpr" path="res://Assets/UI/Skills/skill_electronical.png" id="6_3byiu"]
 [ext_resource type="Texture2D" uid="uid://bmqbhmrqkf7q5" path="res://Assets/Icons/microwave.png" id="6_es6ff"]
 [ext_resource type="PackedScene" uid="uid://c3v5iyxyvaeyx" path="res://Assets/Models/Ships/craft_speeder_d.tscn" id="6_nhceh"]
 [ext_resource type="PackedScene" uid="uid://xgb1bhtlsveo" path="res://Assets/Models/Ship Internal/ship_internal.glb" id="6_tlaxf"]
 [ext_resource type="Theme" uid="uid://bpq8msfm62trk" path="res://ui_theme.tres" id="7_2icn0"]
 [ext_resource type="Script" path="res://Scripts/Ship.gd" id="7_sjdbq"]
+[ext_resource type="Texture2D" uid="uid://cvh4ih6m7i58r" path="res://Assets/UI/Skills/skill_culture.png" id="7_wpgoa"]
 [ext_resource type="Script" path="res://Scripts/ShipCamera.gd" id="8_psybj"]
 [ext_resource type="FontFile" uid="uid://kyconlrag6ea" path="res://Assets/Fonts/Kenney Space.ttf" id="10_0arjv"]
 [ext_resource type="Script" path="res://Scripts/Research.gd" id="10_ipebx"]
@@ -67,11 +74,96 @@ offset_bottom = 37.0
 text = "Ship
 "
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Node2D"]
-offset_left = 780.0
-offset_top = 1031.0
-offset_right = 1162.0
-offset_bottom = 1071.0
+[node name="Menu" type="Button" parent="Node2D"]
+offset_left = 1778.0
+offset_right = 1921.0
+offset_bottom = 39.0
+text = "Menu"
+
+[node name="Skills" type="HBoxContainer" parent="Node2D"]
+offset_left = 555.0
+offset_top = 903.0
+offset_right = 3171.0
+offset_bottom = 1423.0
+scale = Vector2(0.299852, 0.299852)
+size_flags_horizontal = 4
+alignment = 1
+
+[node name="Button" type="Button" parent="Node2D/Skills"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+icon = ExtResource("3_lb280")
+
+[node name="Label" type="Label" parent="Node2D/Skills/Button"]
+layout_mode = 0
+offset_left = 90.0444
+offset_top = 323.493
+offset_right = 375.044
+offset_bottom = 521.493
+theme = ExtResource("3_sqgg1")
+
+[node name="Button2" type="Button" parent="Node2D/Skills"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+icon = ExtResource("4_0js3f")
+script = ExtResource("5_kienm")
+
+[node name="Label" type="Label" parent="Node2D/Skills/Button2"]
+layout_mode = 0
+offset_left = 102.976
+offset_top = 323.493
+offset_right = 387.976
+offset_bottom = 521.493
+theme = ExtResource("3_sqgg1")
+
+[node name="Button3" type="Button" parent="Node2D/Skills"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+icon = ExtResource("5_wtnbk")
+script = ExtResource("5_kienm")
+
+[node name="Label" type="Label" parent="Node2D/Skills/Button3"]
+layout_mode = 2
+offset_left = 99.2327
+offset_top = 323.493
+offset_right = 384.233
+offset_bottom = 521.493
+theme = ExtResource("3_sqgg1")
+
+[node name="Button4" type="Button" parent="Node2D/Skills"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+icon = ExtResource("6_3byiu")
+script = ExtResource("5_kienm")
+scanner_type = 2
+
+[node name="Label" type="Label" parent="Node2D/Skills/Button4"]
+layout_mode = 2
+offset_left = 115.499
+offset_top = 326.828
+offset_right = 400.499
+offset_bottom = 524.828
+theme = ExtResource("3_sqgg1")
+
+[node name="Button5" type="Button" parent="Node2D/Skills"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+icon = ExtResource("7_wpgoa")
+script = ExtResource("5_kienm")
+scanner_type = 3
+
+[node name="Label" type="Label" parent="Node2D/Skills/Button5"]
+layout_mode = 2
+offset_left = 108.421
+offset_top = 323.493
+offset_right = 393.421
+offset_bottom = 521.493
+theme = ExtResource("3_sqgg1")
 
 [node name="World" type="Node3D" parent="."]
 
@@ -79,12 +171,17 @@ offset_bottom = 1071.0
 
 [node name="burgerCheese" parent="World/Artifacts" instance=ExtResource("4_3hbos")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0734589, 0.0515995, 10.5069)
+labels = Array[String](["Squishy Nourishment Disk", "Earthling Energy Capsule", "Gastronomic Commemoration Emblem", "Stacked Nutrient Repository", "Earthling Fast Food Delicacy"])
+dependencies_path = Array[NodePath]([NodePath(""), NodePath(""), NodePath("../kitchenMicrowave"), NodePath(""), NodePath("")])
 icon = ExtResource("4_5r2uc")
+type = 1
 
 [node name="kitchenMicrowave" parent="World/Artifacts" instance=ExtResource("4_8angi")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.388981, 0.0515995, 11.3414)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.388981, 0.0515995, 20.3522)
+labels = Array[String](["Mystery Radiation Container", "Heat Distribution Device", "Energetic Molecular Transformer", "Food Preparation Appliance", "Efficient Food Heating Device"])
 icon = ExtResource("6_es6ff")
 research_duration = 5
+type = 2
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="World"]
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 13.8912, 0)
@@ -248,14 +345,14 @@ offset_right = 925.0
 offset_bottom = 351.0
 color = Color(0.807843, 0.807843, 0.807843, 1)
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Ship/ResearchUI/TabContainer/Research/ColorRect2"]
+[node name="Discription" type="RichTextLabel" parent="Ship/ResearchUI/TabContainer/Research/ColorRect2"]
 layout_mode = 0
 offset_left = 12.0
 offset_top = 7.0
 offset_right = 523.0
 offset_bottom = 254.0
 theme = ExtResource("7_2icn0")
-text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sit amet pharetra dui. Ut vitae odio eget tellus finibus sodales. Vivamus feugiat augue in justo vestibulum tincidunt. Donec finibus eleifend semper. Duis mollis sit amet ligula non fringilla. Quisque faucibus lacinia leo, et pellentesque neque ultricies vel. Suspendisse eros metus, volutpat eget odio id, luctus hendrerit ante. Proin sollicitudin eros sit amet augue euismod, a imperdiet sapien sagittis. Suspendisse blandit ex id risus feugiat, ac maximus nisl sodales. Pellentesque rutrum mi id sapien dignissim egestas. Ut accumsan id leo non condimentum. Pellentesque ut rutrum dolor. Proin molestie ipsum porttitor risus venenatis tempus. Nunc tincidunt elit orci, eget malesuada nulla auctor a. "
+bbcode_enabled = true
 
 [node name="Loot" type="Node3D" parent="Ship"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.09886, 0, -4.08004)

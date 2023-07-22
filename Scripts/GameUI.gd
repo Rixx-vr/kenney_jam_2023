@@ -8,6 +8,7 @@ class_name GameUI
 @onready var ship_camera: Camera3D = $"../Ship/Camera"
 
 @onready var ship_ui: Node2D = $"../Ship/ResearchUI"
+@onready var skills: HBoxContainer = $Skills
 
 
 # Called when the node enters the scene tree for the first time.
@@ -25,6 +26,7 @@ func _on_ship_pressed():
 	ship_camera.current = true
 	world.visible = false
 	ship_ui.visible = true
+	skills.visible = false
 
 
 func _on_world_pressed():
@@ -32,3 +34,4 @@ func _on_world_pressed():
 	world_camera.current = true
 	ship_internal.visible = false
 	ship_ui.visible = false
+	skills.visible = true

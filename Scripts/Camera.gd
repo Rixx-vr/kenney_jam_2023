@@ -1,9 +1,5 @@
 class_name Camera extends Camera3D
 
-# Modifier keys' speed multiplier
-const SHIFT_MULTIPLIER = 2.5
-const ALT_MULTIPLIER = 1.0 / SHIFT_MULTIPLIER
-
 const RAY_LENGTH = 1000
 
 @onready var game: Game = $"../.."
@@ -12,18 +8,11 @@ const RAY_LENGTH = 1000
 
 @export_range(0.0, 1.0) var sensitivity: float = 0.25
 
-# Mouse state
-var _mouse_position = Vector2(0.0, 0.0)
-var _total_pitch = 0.0
+const MOVE_SPEED = .10
+const ZOOM_SPEED = 0.1
+const ZOOM_MIN = 2.0
+const ZOOM_MAX = 20.0
 
-# Movement state
-var _direction = Vector3(0.0, 0.0, 0.0)
-var _velocity = Vector3(0.0, 0.0, 0.0)
-var _acceleration = 30
-var _deceleration = -10
-var _vel_multiplier = 4
-
-# Keyboard state
 var _w = false
 var _s = false
 var _a = false
@@ -32,6 +21,10 @@ var _q = false
 var _e = false
 var _shift = false
 var _alt = false
+
+# Mouse state
+var _mouse_position = Vector2(0.0, 0.0)
+var _total_pitch = 0.0
 
 func _get_selection(event):
 	var state_space = get_world_3d().direct_space_state
@@ -49,32 +42,31 @@ func _get_selection(event):
 			var parent = collider.get_parent()
 
 			if(parent is Artifact):
-				game.add_artifact(parent)
-				
-		
+				scout.pickup_artifact(parent)
+				return
+
 		scout.set_destination(result.position)
 
 
 func _input(event):
 	if not get_parent().visible:
 		return
-	# Receives mouse motion
+
 	if event is InputEventMouseMotion:
 		_mouse_position = event.relative
-	
-	# Receives mouse button input
+	# Receives mouse motion
+		# Receives mouse button input
 	if event is InputEventMouseButton:
 		match event.button_index:
 			MOUSE_BUTTON_RIGHT: # Only allows rotation if right click down
 				Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED if event.pressed else Input.MOUSE_MODE_VISIBLE)
-			MOUSE_BUTTON_WHEEL_UP: # Increases max velocity
-				_vel_multiplier = clamp(_vel_multiplier * 1.1, 0.2, 20)
-			MOUSE_BUTTON_WHEEL_DOWN: # Decereases max velocity
-				_vel_multiplier = clamp(_vel_multiplier / 1.1, 0.2, 20)
 			MOUSE_BUTTON_LEFT:
 				_get_selection(event)
+			MOUSE_BUTTON_WHEEL_UP: # Increases max velocity
+				zoom_camera(.2)
+			MOUSE_BUTTON_WHEEL_DOWN: # Decereases max velocity
+				zoom_camera(-0.2)
 
-	# Receives key input
 	if event is InputEventKey:
 		match event.keycode:
 			KEY_W:
@@ -93,48 +85,27 @@ func _input(event):
 				_shift = event.pressed
 			KEY_ALT:
 				_alt = event.pressed
+				
+	_update_mouselook()
+
 
 # Updates mouselook and movement every frame
 func _process(delta):
 	if not get_parent().visible:
 		return
+		
 
-	_update_mouselook()
-	_update_movement(delta)
-
-# Updates camera movement
-func _update_movement(delta):
-	# Computes desired direction from key states
-	_direction = Vector3(
-		(_w as float) - (_s as float), 
+# Horizontal movement with WASD
+	var move_vector = Vector3(
+		(_d as float) - (_a as float), 
 		0, #(_e as float) - (_q as float),
-		(_d as float) - (_a as float)
+		(_s as float) - (_w as float)
 	)
-	
-	# Computes the change in velocity due to desired direction and "drag"
-	# The "drag" is a constant acceleration on the camera to bring it's velocity to 0
-	var offset = _direction.normalized() * _acceleration * _vel_multiplier * delta \
-		+ _velocity.normalized() * _deceleration * _vel_multiplier * delta
-	
-	# Compute modifiers' speed multiplier
-	var speed_multi = 1
-	if _shift: speed_multi *= SHIFT_MULTIPLIER
-	if _alt: speed_multi *= ALT_MULTIPLIER
-	
-	# Checks if we should bother translating the camera
-	if _direction == Vector3.ZERO and offset.length_squared() > _velocity.length_squared():
-		# Sets the velocity to 0 to prevent jittering due to imperfect deceleration
-		_velocity = Vector3.ZERO
-	else:
-		# Clamps speed to stay within maximum value (_vel_multiplier)
-		_velocity.x = clamp(_velocity.x + offset.x, -_vel_multiplier, _vel_multiplier)
-		#_velocity.y = clamp(_velocity.y + offset.y, -_vel_multiplier, _vel_multiplier)
-		_velocity.z = clamp(_velocity.z + offset.z, -_vel_multiplier, _vel_multiplier)
-	
-		#translate(_velocity * delta * speed_multi)
-		position += (_velocity * delta * speed_multi)
 
-# Updates mouse look 
+	move_vector = move_vector.normalized()
+	move_camera(move_vector * MOVE_SPEED * (3 if _shift else 1))
+
+
 func _update_mouselook():
 	# Only rotates mouse if the mouse is captured
 	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
@@ -150,3 +121,19 @@ func _update_mouselook():
 		rotate_y(deg_to_rad(-yaw))
 		rotate_object_local(Vector3(1,0,0), deg_to_rad(-pitch))
 
+
+func zoom_camera(amount: float) -> void:
+	translate(Vector3.FORWARD * amount)
+
+
+func move_camera(movement: Vector3) -> void:
+	# Make the movement relative to the camera's orientation
+	var camera_basis = self.global_transform.basis
+	
+	#var global_movement: Vector3 = camera_basis.rotated(movement)
+	var global_movement: Vector3 = movement
+	global_movement *= camera_basis.get_rotation_quaternion().inverse()
+	
+	global_movement.y = 0
+
+	global_translate(global_movement)

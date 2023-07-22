@@ -28,9 +28,9 @@ func add_to_bay(artifact : Artifact):
 
 
 func has_in_bay(artifact : Artifact):
-	for child in self.get_children():
+	for child in loot.get_children():
 		if child == artifact:
-			return true
+			return child.is_researched()
 			
 	return false
 	

@@ -1,0 +1,10 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://es2u8vea212h"]
+
+[ext_resource type="Texture2D" uid="uid://fj0vhwxv8wu5" path="res://Assets/UI/dot_shadow.png" id="1_ihldk"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tn663"]
+texture = ExtResource("1_ihldk")
+
+[resource]
+default_font_size = 143
+Button/styles/normal = SubResource("StyleBoxTexture_tn663")

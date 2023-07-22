@@ -5,6 +5,7 @@ class_name Research
 @onready var timer: Timer = $Timer
 @onready var timer_progress: ProgressBar = $Progress
 @onready var name_label: Label = $Name
+@onready var disc_label: RichTextLabel = $ColorRect2/Discription
 @onready var research_progress: HBoxContainer = $ResearchProgress
 @onready var ship: Node3D = $"../../.."
 @onready var analyse_button: Button = $analyse
@@ -24,7 +25,10 @@ func _process(delta):
 		
 
 func start_reseatch():
-	if timer.is_stopped():
+	var requirement = artifact.get_requirement()
+	print(requirement)
+	print(ship.has_in_bay(requirement))
+	if timer.is_stopped() and requirement == null or ship.has_in_bay(requirement):
 		timer.start(artifact.research_duration)
 	
 	
@@ -41,9 +45,7 @@ func _on_analyse_pressed():
 	
 	
 func load_artifact(artifact: Artifact):
-	var requirement = artifact.get_requirement()
-	
-	if timer.is_stopped() and requirement == null or ship.has_in_bay(requirement):
+	if timer.is_stopped():
 		self.artifact = artifact
 		updat_artifact()
 
@@ -51,6 +53,7 @@ func load_artifact(artifact: Artifact):
 func updat_artifact():
 	if artifact != null:
 		name_label.text = artifact.get_label()
+		disc_label.text = artifact.get_description()
 		for i in range(research_progress.get_child_count()):
 			var prog: Indicator = research_progress.get_child(i)
 			prog.set_state(artifact.progress > i)
