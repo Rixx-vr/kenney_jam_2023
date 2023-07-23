@@ -13,6 +13,7 @@ var discoveries: Array[Artifact]
 @onready var hud: Node = $Node2D
 
 @onready var world_artifacts: Node = $World/Artifacts
+@onready var game_over: TabContainer = $Node2D/GameOver
 
 var artifact_count = 0
 
@@ -35,9 +36,13 @@ func _process(delta):
 
 
 func update_tasks():
+	var itentified = research.get_identified()
 	hud.update_tasks(artifact_count - world_artifacts.get_child_count(),
 		artifact_count,
-		research.get_identified())
+		itentified)
+
+	if artifact_count == itentified:
+		game_over.visible = true
 
 
 func add_artifact(artifact: Artifact):
@@ -58,3 +63,7 @@ func unveil_artifacts(skill: Skill):
 			if artifact.type == skill.scanner_type and distance < skill.range:
 				artifact.visible = true
 
+
+
+func _on_close_pressed():
+	game_over.visible = false

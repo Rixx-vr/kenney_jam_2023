@@ -41,6 +41,7 @@ func reseatch_ended():
 	if artifact.is_researched():
 		identified += 1
 		game.update_tasks()
+		artifact.disable()
 
 	updat_artifact()
 
@@ -50,7 +51,7 @@ func get_identified():
 
 
 func _on_analyse_pressed():
-	if artifact != null:
+	if artifact != null and timer.is_stopped():
 		start_reseatch()
 
 

@@ -11,6 +11,7 @@ var dependencies: Array[Artifact] = [null, null, null, null, null]
 @export var icon: Texture2D
 @export var research_duration = 2
 @export var type: ArtifactType = ArtifactType.NONE
+@onready var collider: CollisionShape3D = $StaticBody3D/CollisionShape3D
 
 var progress = 0
 
@@ -43,11 +44,18 @@ func get_label() -> String:
 		return labels[min(progress, labels.size()) - 1]
 
 
+func disable():
+	visible = false
+	collider.disabled = true
+
 func get_description() -> String:
 	var discription = ""
-
-	if get_requirement() != null:
-		discription += "\n\nWe think we can learn more about this Item if we have a look at the [b] %s [/b] first" % get_requirement().get_label()
+	var requirement: Artifact = get_requirement()
+	if requirement != null:
+		if requirement.is_researched():
+			discription += "\n\nWe have an idea how this is linked to the [b] %s [/b]!" % get_requirement().get_label()
+		else:
+			discription += "\n\nWe think we can learn more about this Item if we have a look at the [b] %s [/b] first" % get_requirement().get_label()
 	if progress == 0:
 		return "???"
 	else:
