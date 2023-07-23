@@ -4,7 +4,7 @@ class_name Skill
 
 @export var scanner_type: Artifact.ArtifactType = Artifact.ArtifactType.ORGAMIC
 @export var range: float = 10
-@export var cooldown: float = 10
+@export var cooldown: float = 5
 @onready var game: Game = $"../../.."
 
 var timer: Timer
