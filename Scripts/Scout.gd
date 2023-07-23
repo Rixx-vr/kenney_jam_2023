@@ -16,9 +16,9 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	var distance = destination - position
-	
+
 	destination *= Vector3(1,0,1)
-	
+
 	if distance.length() > 0.1:
 		look_at(destination * Vector3(1,0,1))
 		translate(Vector3.FORWARD * speed * delta)
@@ -32,5 +32,11 @@ func pickup_artifact(artifact: Artifact):
 	pickup_target = artifact
 	destination = artifact.global_position
 
+
 func set_destination(destination: Vector3):
 	self.destination = destination
+
+
+func cancell_target():
+	set_destination(position)
+	pickup_target = null

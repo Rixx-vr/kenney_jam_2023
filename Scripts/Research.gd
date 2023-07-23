@@ -10,8 +10,10 @@ class_name Research
 @onready var ship: Node3D = $"../../.."
 @onready var analyse_button: Button = $analyse
 @onready var icon = $ColorRect/Image
+@onready var game: Game = $"../../../.."
 
 var artifact: Artifact = null
+var identified = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -36,14 +38,22 @@ func reseatch_ended():
 	timer.stop()
 	timer_progress.value = 0
 	artifact.progress += 1
+	if artifact.is_researched():
+		identified += 1
+		game.update_tasks()
+
 	updat_artifact()
+
+
+func get_identified():
+	return identified
 
 
 func _on_analyse_pressed():
 	if artifact != null:
 		start_reseatch()
-	
-	
+
+
 func load_artifact(artifact: Artifact):
 	if timer.is_stopped():
 		self.artifact = artifact

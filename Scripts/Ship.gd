@@ -4,7 +4,7 @@ extends Node3D
 
 @onready var loot: Node3D = $Loot
 
-@export var grid: Vector2i = Vector2i(5, 5)
+@export var grid: Vector2i = Vector2i(10, 5)
 @export var space: float = 0.5
 
 
